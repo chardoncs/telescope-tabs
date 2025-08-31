@@ -80,6 +80,17 @@ end,
 ```
 To alter this behaviour, just assign your own function.
 
+### sort_function
+This predicate function is used to sort the tabs display order. The default is `nil`
+Example:
+```lua
+sort_function = function(tab_id_a, buffer_ids_a, file_names_a, file_paths_a, is_current_a,
+						tab_id_b, buffer_ids_b, file_names_b, file_paths_b, is_current_b)
+	-- Move the current tab to the top of the list.
+	return is_current_b
+end
+```
+
 ### entry_ordinal
 This changes what queries a tab matches. The following function is used by default:
 ```lua
