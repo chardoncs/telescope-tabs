@@ -1,11 +1,6 @@
 # telescope-tabs
 Fly through your tabs in neovim ✈️
 
-> [!IMPORTANT]
-> Moved to Codeberg: https://codeberg.org/LukasPietzschmann/telescope-tabs
-
----
-
 <p align="center">
 	<img src="https://github.com/LukasPietzschmann/telescope-tabs/assets/49213919/e749d458-4ffd-4af2-aba9-86d0e3fb4862" width="300px" />
 </p>
