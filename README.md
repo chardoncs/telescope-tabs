@@ -2,11 +2,11 @@
 Fly through your tabs in neovim ✈️
 
 <p align="center">
-	<img src="https://github.com/LukasPietzschmann/telescope-tabs/assets/49213919/e749d458-4ffd-4af2-aba9-86d0e3fb4862" width="300px" />
+	<img src="https://github.com/chardoncs/telescope-tabs/assets/49213919/e749d458-4ffd-4af2-aba9-86d0e3fb4862" width="300px" />
 </p>
 
 ## Important Note
-If you don't want to use telescope, there's also a version using `vim.ui.select` instead of telescope. Checkout the [`vim_ui_select`](https://github.com/LukasPietzschmann/telescope-tabs/tree/vim_ui_select) branch :)
+If you don't want to use telescope, there's also a version using `vim.ui.select` instead of telescope. Checkout the [`vim_ui_select`](https://github.com/chardoncs/telescope-tabs/tree/vim_ui_select) branch :)
 
 ## Usage
 You can show the picker from neovim's cmd-line by executing
@@ -19,7 +19,7 @@ Or straight from the plugin's path with lua
 :lua require('telescope-tabs').list_tabs()
 ```
 
-You can press `C-d` (insert mode) or `D` (normal mode) on any Item in the picker to close the tab (respectively all windows in it). To change the keybinding, look at [configure](https://github.com/LukasPietzschmann/telescope-tabs#configure).
+You can press `C-d` (insert mode) or `D` (normal mode) on any Item in the picker to close the tab (respectively all windows in it). To change the keybinding, look at [configure](https://github.com/chardoncs/telescope-tabs#configure).
 <p align="center">
 	<img src="https://user-images.githubusercontent.com/49213919/216813167-45ca1908-b15f-4904-a441-6420d82dcb16.png" width="550"  />
 </p>
@@ -42,7 +42,7 @@ Install with your favorite Neovim package manager.
 Example with lazy.nvim:
 ```lua
 {
-	'LukasPietzschmann/telescope-tabs',
+	'chardoncs/telescope-tabs',
 	config = function()
 		require('telescope').load_extension 'telescope-tabs'
 		require('telescope-tabs').setup {
@@ -56,7 +56,7 @@ Example with lazy.nvim:
 Example with packer.nvim:
 ```lua
 use {
-	'LukasPietzschmann/telescope-tabs',
+	'chardoncs/telescope-tabs',
 	requires = { 'nvim-telescope/telescope.nvim' },
 	config = function()
 		require'telescope-tabs'.setup{
@@ -66,7 +66,7 @@ use {
 }
 ```
 ## Configure
-Different configurations can be seen in the [configs wiki](https://github.com/LukasPietzschmann/telescope-tabs/wiki/Configs#configs). Feel free to add your own!
+Different configurations can be seen in the [configs wiki](https://github.com/chardoncs/telescope-tabs/wiki/Configs#configs). Feel free to add your own!
 
 If you want to come up with your own config, these are the settings you can tweak:
 
@@ -114,4 +114,4 @@ close_tab_shortcut_n = 'D',     -- if you're in normal mode
 Note, that their value do not get parsed or checked, so they should follow the regular format for keybindings.
 
 ## Documentation
-See [telescope-tabs.txt](https://github.com/LukasPietzschmann/telescope-tabs/blob/master/doc/telescope-tabs.txt).
+See [telescope-tabs.txt](https://github.com/chardoncs/telescope-tabs/blob/master/doc/telescope-tabs.txt).
