@@ -71,10 +71,21 @@ This changes how a tab is represented in the picker. By default the following fu
 ```lua
 entry_formatter = function(tab_id, buffer_ids, file_names, file_paths, is_current)
 	local entry_string = table.concat(file_names, ', ')
-	return string.format('%d: %s%s', tab_id, entry_string, is_current and ' <' or '')
+	return string.format('%d: %s', tab_id, entry_string)
 end,
 ```
 To alter this behaviour, just assign your own function.
+
+### current_tab_hl
+The current tab is marked by highlighting its entry with this highlight group:
+```lua
+current_tab_hl = 'TelescopeTabsCurrentTab',
+```
+By default, `TelescopeTabsCurrentTab` falls back to `Directory`. To change how the current tab is highlighted, either define the highlight group yourself, e.g. in your colorscheme:
+```lua
+vim.api.nvim_set_hl(0, 'TelescopeTabsCurrentTab', { fg = '#ff8800', bold = true })
+```
+or point `current_tab_hl` at any other highlight group. Set it to `false` if you don't want the current tab to be highlighted at all.
 
 ### sort_function
 This predicate function is used to sort the tabs display order. The default is `nil`

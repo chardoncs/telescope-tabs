@@ -40,8 +40,15 @@ require'telescope-tabs'.setup {
     -- refer to the same buffer.
     entry_formatter = function(tab_id, buffer_ids, file_names, file_paths, is_current)
         local entry_string = table.concat(file_names, ', ')
-        return string.format('%d: %s%s', tab_id, entry_string, is_current and ' <' or '')
+        return string.format('%d: %s', tab_id, entry_string)
     end,
+
+    -- This highlight group is used to highlight the entry of the current tab.
+    -- The default definition of 'TelescopeTabsCurrentTab' is linked to
+    -- 'Directory'. You can define the highlight group yourself to change its
+    -- appearance, or set this option to false if the current tab should not be
+    -- highlighted.
+    current_tab_hl = 'TelescopeTabsCurrentTab',
 
     -- This predicate function is used to sort the tabs display order.
     -- By default, tabs are not sorted.

@@ -38,6 +38,14 @@ local close_tab = function(bufnr)
 	end)
 end
 
+local current_tab_hl_default = 'TelescopeTabsCurrentTab'
+
+local define_current_tab_hl = function()
+	-- Only set the default appearance of the current tab's highlight. If the user or their
+	-- colorscheme already defined the group, it takes precedence.
+	vim.api.nvim_set_hl(0, current_tab_hl_default, { link = 'Directory', default = true })
+end
+
 local M = {
 	config = {},
 }
@@ -46,12 +54,13 @@ local default_conf = {
   sort_function = nil,
 	entry_formatter = function(tab_id, buffer_ids, file_names, file_paths, is_current)
 		local entry_string = table.concat(file_names, ', ')
-		return string.format('%d: %s%s', tab_id, entry_string, is_current and ' <' or '')
+		return string.format('%d: %s', tab_id, entry_string)
 	end,
 	entry_ordinal = function(tab_id, buffer_ids, file_names, file_paths, is_current)
 		return table.concat(file_names, ' ')
 	end,
 	show_preview = true,
+	current_tab_hl = current_tab_hl_default,
 	close_tab_shortcut_i = '<C-d>',
 	close_tab_shortcut_n = 'D',
 }
@@ -60,6 +69,9 @@ M.conf = default_conf
 
 M.setup = function(opts)
 	normalize(opts, M.conf)
+	if M.conf.current_tab_hl == current_tab_hl_default then
+		define_current_tab_hl()
+	end
 end
 
 local visible_tab = vim.api.nvim_get_current_tabpage()
@@ -87,6 +99,9 @@ end
 
 M.list_tabs = function(opts)
 	opts = vim.tbl_deep_extend('force', M.conf, opts or {})
+	if opts.current_tab_hl == current_tab_hl_default then
+		define_current_tab_hl()
+	end
 	local res = {}
 	local current_tab = { number = vim.api.nvim_tabpage_get_number(0), index = nil }
 	for index, tid in ipairs(vim.api.nvim_list_tabpages()) do
@@ -125,10 +140,16 @@ M.list_tabs = function(opts)
 				entry_maker = function(entry)
 					local entry_string = opts.entry_formatter(entry[5], entry[3], entry[1], entry[2], entry[6])
 					local ordinal_string = opts.entry_ordinal(entry[5], entry[3], entry[1], entry[2], entry[6])
+					local display = entry_string
+					if entry[6] and opts.current_tab_hl then
+						display = function()
+							return entry_string, { { { 0, #entry_string }, opts.current_tab_hl } }
+						end
+					end
 					return {
 						value = entry,
 						path = entry[2][1],
-						display = entry_string,
+						display = display,
 						ordinal = ordinal_string,
 					}
 				end,
@@ -151,7 +172,9 @@ M.list_tabs = function(opts)
 			previewer = opts.show_preview and conf.file_previewer {} or nil,
 			on_complete = {
 				function(picker)
-					picker:set_selection(current_tab.index - 1)
+					-- set_selection expects a buffer row, not an index. get_row maps an entry's
+					-- index to the row it is displayed in (also accounts for sorting_strategy).
+					picker:set_selection(picker:get_row(current_tab.index))
 				end,
 			},
 		})
